@@ -1,0 +1,326 @@
+/* =========================================================
+   ABSENSI — Admin Panel
+   Design language: precision & identity verification.
+   A calm, technical palette (graphite + teal) with monospace
+   used only where it's earned — fingerprint IDs and access
+   codes are literal machine identifiers, not decoration.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+:root{
+  --bg:#eef1f5;
+  --surface:#ffffff;
+  --surface-2:#f6f8fa;
+  --ink:#12151c;
+  --ink-soft:#333947;
+  --muted:#6b7280;
+  --border:#e1e5eb;
+  --border-strong:#c9d0da;
+
+  --graphite:#0b0d12;
+  --graphite-2:#151922;
+
+  --accent:#0d9488;
+  --accent-dark:#0b7c72;
+  --accent-soft:#e3f5f3;
+  --accent-ink:#0b3f3a;
+
+  --indigo:#4f46e5;
+  --indigo-soft:#ecebfd;
+
+  --danger:#dc2626;
+  --danger-soft:#fdecec;
+  --success:#15803d;
+  --success-soft:#e8f7ee;
+  --amber:#b45309;
+  --amber-soft:#fdf1dc;
+
+  --radius-sm:8px;
+  --radius:14px;
+  --radius-lg:20px;
+
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06);
+  --shadow-md:0 10px 30px -12px rgba(15,23,42,.18);
+  --shadow-lg:0 24px 60px -20px rgba(11,13,18,.35);
+
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-display:'Sora',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+
+/* ---------- dark mode (toggled by theme.js via data-theme) ---------- */
+:root[data-theme="dark"]{
+  --bg:#0f1117;
+  --surface:#171a21;
+  --surface-2:#1e222b;
+  --ink:#e8eaf0;
+  --ink-soft:#c6cbd6;
+  --muted:#8b93a6;
+  --border:#2a2f3a;
+  --border-strong:#3a4150;
+
+  --accent:#14b8a6;
+  --accent-dark:#2dd4bf;
+  --accent-soft:#0d2e2b;
+
+  --indigo-soft:#241f45;
+
+  --danger-soft:#3a1414;
+  --success-soft:#0f2b1c;
+  --amber-soft:#332008;
+
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow-md:0 10px 30px -12px rgba(0,0,0,.6);
+  --shadow-lg:0 24px 60px -20px rgba(0,0,0,.7);
+}
+:root[data-theme="dark"] .stat .icon-badge,
+:root[data-theme="dark"] .status-badge,
+:root[data-theme="dark"] .badge{filter:brightness(1.15)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-display);color:var(--ink);margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- layout shell ---------- */
+.sidebar{
+  position:fixed;z-index:10;left:0;top:0;width:264px;height:100vh;
+  background:var(--graphite);
+  padding:26px 16px;
+  display:flex;flex-direction:column;
+  border-right:1px solid #000;
+}
+.sidebar::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background:
+    repeating-radial-gradient(circle at 30px 40px, transparent 0 6px, #fff 6px 7px);
+  -webkit-mask-image:linear-gradient(#000,transparent 70%);
+          mask-image:linear-gradient(#000,transparent 70%);
+}
+.brand{
+  position:relative;display:flex;align-items:center;gap:10px;
+  color:#fff;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:.2px;
+  padding:6px 8px 2px;
+}
+.brand svg{width:22px;height:22px;color:var(--accent);flex:none}
+.subtitle{
+  position:relative;color:#78849a;font-size:11px;letter-spacing:1.6px;font-weight:600;
+  margin:5px 0 28px;padding:0 8px;text-transform:uppercase;
+}
+.nav{position:relative;display:flex;flex-direction:column;gap:2px;flex:1}
+.nav a{
+  display:flex;align-items:center;gap:12px;
+  color:#9aa5b8;text-decoration:none;
+  padding:11px 12px;border-radius:10px;font-size:13.5px;font-weight:600;
+  border-left:2.5px solid transparent;
+  transition:color .15s ease, background-color .15s ease;
+}
+.nav a svg{width:18px;height:18px;flex:none;opacity:.85}
+.nav a:hover{background:#181d28;color:#fff}
+.nav a.active{
+  background:#161c27;color:#fff;
+  border-left-color:var(--accent);
+}
+.nav a.active svg{color:var(--accent);opacity:1}
+.nav a.logout{margin-top:auto;color:#e3a5a5}
+.nav a.logout:hover{background:rgba(220,38,38,.14);color:#fca5a5}
+
+.main{margin-left:264px;padding:32px 36px 60px;min-height:100vh;max-width:1320px}
+
+.topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:6px}
+.title h1{font-size:26px;font-weight:700;letter-spacing:-.2px}
+.title p{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+.user-pill{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border);
+  padding:9px 14px;border-radius:999px;font-weight:600;font-size:13px;color:var(--ink-soft);
+  box-shadow:var(--shadow-sm);
+}
+.user-pill svg{width:15px;height:15px;color:var(--accent)}
+
+/* ---------- panels & cards ---------- */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 26px;
+  margin-top:20px;
+}
+.panel h2{
+  display:flex;align-items:center;gap:9px;
+  font-size:15.5px;font-weight:700;letter-spacing:-.1px;margin-bottom:4px;
+}
+.panel h2 svg{width:18px;height:18px;color:var(--accent)}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.stat{
+  position:relative;overflow:hidden;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px;box-shadow:var(--shadow-sm);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.stat:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.stat .icon-badge{
+  width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:var(--accent-soft);color:var(--accent-dark);
+}
+.stat .icon-badge svg{width:19px;height:19px}
+.stat .label{color:var(--muted);font-size:11.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-top:16px}
+.stat .num{font-family:var(--font-display);font-size:34px;font-weight:700;margin-top:4px;letter-spacing:-.5px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid transparent;border-radius:10px;padding:10px 16px;
+  background:var(--accent);color:#fff;text-decoration:none;
+  font-family:var(--font-body);font-weight:600;font-size:13.5px;cursor:pointer;
+  transition:background-color .15s ease, border-color .15s ease, transform .1s ease;
+}
+.btn svg{width:15px;height:15px}
+.btn:hover{background:var(--accent-dark)}
+.btn:active{transform:translateY(1px)}
+.btn.gray{background:transparent;color:var(--ink-soft);border-color:var(--border-strong)}
+.btn.gray:hover{background:var(--surface-2);border-color:var(--muted)}
+.btn.red{background:var(--danger)}
+.btn.red:hover{background:#b91c1c}
+.btn.green{background:var(--success)}
+.btn.green:hover{background:#0f6b32}
+.btn.small{padding:7px 11px;font-size:12px;border-radius:8px}
+
+/* ---------- forms ---------- */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.field label{display:block;font-size:11.5px;font-weight:700;letter-spacing:.4px;color:var(--ink-soft);margin:0 0 7px;text-transform:uppercase}
+.field input,.search input,.filter input{
+  width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;
+  outline:0;background:var(--surface-2);font-family:var(--font-body);font-size:14px;color:var(--ink);
+  transition:border-color .15s ease, background-color .15s ease;
+}
+.field input:focus,.search input:focus,.filter input:focus{
+  border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px var(--accent-soft);
+}
+
+/* ---------- alerts & status ---------- */
+.alert{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;border-radius:10px;margin-top:16px;font-weight:600;font-size:13.5px;
+}
+.alert svg{width:17px;height:17px;flex:none}
+.alert.success{background:var(--success-soft);color:var(--success)}
+.alert.error{background:var(--danger-soft);color:var(--danger)}
+
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.3px}
+.badge.pending{background:var(--amber-soft);color:var(--amber)}
+.badge.processing{background:var(--indigo-soft);color:var(--indigo)}
+.badge.done,.badge.success{background:var(--success-soft);color:var(--success)}
+.badge.failed{background:var(--danger-soft);color:var(--danger)}
+
+.codebox{
+  position:relative;overflow:hidden;
+  background:var(--graphite);color:#fff;
+  padding:22px 24px;border-radius:var(--radius);margin-top:18px;
+  box-shadow:var(--shadow-md);
+}
+.codebox::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 40%,rgba(13,148,136,.35) 50%,transparent 60%);
+  background-size:220% 100%;
+  animation:sweep 2.6s ease-in-out 1;
+}
+@keyframes sweep{from{background-position:130% 0}to{background-position:-30% 0}}
+.codebox div{position:relative;font-size:12px;letter-spacing:1px;color:#9aa5b8;text-transform:uppercase;font-weight:700}
+.codebox strong{position:relative;display:block;font-family:var(--font-mono);font-size:28px;letter-spacing:2px;margin:8px 0;color:#5eead4}
+
+/* ---------- table ---------- */
+.table-wrap{overflow-x:auto;margin-top:14px}
+table{width:100%;border-collapse:separate;border-spacing:0}
+th{
+  background:var(--surface-2);color:var(--ink-soft);text-align:left;padding:12px 14px;
+  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  border-bottom:1.5px solid var(--border);white-space:nowrap;
+}
+td{padding:13px 14px;border-bottom:1px solid var(--border);background:var(--surface);font-size:13.5px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface-2)}
+.mono{font-family:var(--font-mono);font-size:13px}
+.code{font-family:var(--font-mono);font-weight:700;color:var(--accent-dark)}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.enroll-btn{background:var(--indigo) !important}
+.enroll-btn:hover{background:#4338ca !important}
+
+/* ---------- misc ---------- */
+.filter,.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filter input{width:auto}
+.search input{flex:1;min-width:230px}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+.quick a{
+  display:flex;align-items:center;gap:12px;
+  padding:18px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);
+  text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;
+  transition:border-color .15s ease, background-color .15s ease, transform .15s ease;
+}
+.quick a svg{width:20px;height:20px;color:var(--accent);flex:none}
+.quick a:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateY(-2px)}
+.note{color:var(--muted);font-size:13px;line-height:1.6}
+
+/* ---------- login ---------- */
+.login-page{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(13,148,136,.35), transparent 45%),
+    var(--graphite);
+  padding:20px;position:relative;overflow:hidden;
+}
+.login-page::before{
+  content:"";position:absolute;inset:0;opacity:.05;pointer-events:none;
+  background:repeating-radial-gradient(circle at 50% 45%, transparent 0 10px, #fff 10px 11px);
+  -webkit-mask-image:radial-gradient(circle at 50% 45%, #000 0%, transparent 55%);
+          mask-image:radial-gradient(circle at 50% 45%, #000 0%, transparent 55%);
+}
+.login-box{
+  position:relative;width:392px;max-width:100%;
+  background:var(--surface);border-radius:var(--radius-lg);padding:36px 34px;
+  box-shadow:var(--shadow-lg);
+}
+.login-brand{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--font-display);font-size:21px;font-weight:700;color:var(--ink);
+}
+.login-brand svg{width:24px;height:24px;color:var(--accent)}
+.login-sub{text-align:center;color:var(--muted);font-size:13px;margin:8px 0 26px}
+.login-box .field{margin-top:15px}
+.login-box button{width:100%;margin-top:22px}
+
+@media(max-width:850px){
+  .sidebar{position:relative;width:100%;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:16px}
+  .sidebar::before{display:none}
+  .brand,.subtitle{padding:0}
+  .subtitle{display:none}
+  .nav{flex-direction:row;flex-wrap:wrap;flex:1}
+  .nav a.logout{margin-top:0;margin-left:auto}
+  .main{margin-left:0;padding:22px}
+  .cards{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .topbar{display:block}
+  .user-pill{display:inline-flex;margin-top:12px}
+  .quick{grid-template-columns:1fr}
+}
+
+/* ---------- attendance status badges (Hadir / Terlambat / Alpa) ---------- */
+.status-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.2px;
+  background:var(--success-soft);color:var(--success);
+}
+.status-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.status-badge.late{background:var(--amber-soft);color:var(--amber)}
+.status-badge.alpa{background:var(--danger-soft);color:var(--danger)}
+.status-badge.izin{background:var(--indigo-soft);color:var(--indigo)}
+.status-badge.sakit{background:#f3e8ff;color:#7e22ce}

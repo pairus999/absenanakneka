@@ -1,0 +1,1 @@
+ALTER TABLE siswa ADD COLUMN no_hp VARCHAR(20) NULL AFTER kelas;

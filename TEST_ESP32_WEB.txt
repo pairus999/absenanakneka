@@ -1,0 +1,31 @@
+TEST FINAL ESP32 + WEBSITE
+
+WIRING AS608:
+- AS608 TX -> ESP32 GPIO16 (RX2)
+- AS608 RX -> ESP32 GPIO17 (TX2)
+- AS608 VCC -> 5V
+- AS608 GND -> GND
+
+LCD:
+- SDA -> GPIO26
+- SCL -> GPIO25
+
+BUZZER:
+- Signal -> GPIO15
+
+SETELAH UPLOAD:
+1. Buka Serial Monitor 115200 baud.
+2. Harus muncul [AS608] detect attempt ... lalu [AS608] OK.
+3. Setelah itu WiFi harus OK dan LCD menjadi TEMPELKAN JARI / UNTUK ABSEN.
+4. Website admin: buka Data Siswa, pastikan fingerprint_id siswa sudah diisi.
+5. Jalankan Enroll untuk fingerprint_id tersebut.
+6. LCD harus meminta jari pertama -> angkat -> jari kedua -> ENROLL BERHASIL.
+7. Setelah enroll, tempel jari. ESP32 mengirim fingerprint_id ke website/database.
+8. Cek halaman absensi.
+
+JIKA LCD MENULIS AS608 ERROR:
+- Jangan ubah coding dulu.
+- Pastikan TX/RX silang: TX sensor ke GPIO16, RX sensor ke GPIO17.
+- Pastikan GND ESP32 dan AS608 tersambung.
+- Pastikan sensor mendapat supply yang sesuai modul AS608 yang dipakai.
+- Lihat Serial Monitor; sketch sekarang mencoba 8 kali sebelum restart.
